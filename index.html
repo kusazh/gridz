@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>中文排版测试</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        font-size: min(36px, 4vw);
+        width: 20em;
+        margin: 0 auto;
+        padding: 2em;
+        line-height: 1.5;
+        /* background-image: linear-gradient(
+            to right,
+            lightgrey 1px,
+            transparent 1px
+          ),
+          linear-gradient(to bottom, lightgrey 1px, transparent 1px);
+        background-size: 1em 1em;
+        background-position: center center; */
+        -webkit-font-smoothing: antialiased;
+        hanging-punctuation: allow-end;
+      }
+
+      .nonFullwidth {
+        display: inline-block;
+        letter-spacing: 0px;
+        text-align: center;
+      }
+
+      .heti heti-adjacent {
+        display: inline;
+      }
+
+      .heti .heti-adjacent-half {
+        margin-inline-end: -0.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="heti">
+      <p>
+        字母汤的本质是缩略语的滥用。缩略语随着语言的发展而发展，一个缩略语可能包含另一个缩略语。以中文为例，「喜闻乐见、大快人心、普天同庆、奔走相告」四个词本身已经是成语——某种缩略语。而这四个成语又组合成新的缩略语「喜大普奔」。以此推导，未来又将产生由「喜大普奔」组成的新缩略语。
+      </p>
+      <p>
+        令「喜大普奔、闻鸡起舞、乐善好施、见利忘义」四个词组成新的缩略语「喜闻乐见」，就产生了一种回环：喜闻乐见—喜大普奔—喜闻乐见。一个时代产生越多文本资讯，那么这个时代就越有可能发生这样的字母汤问题。这正是我在这个人工智慧世代的担忧，即文中所指：「人工智慧后带来的语言问题太多了，用不了。」
+      </p>
+      <p>字母汤问题愈发严重，会带来几个问题：</p>
+      <p>
+        字母越少的语言越先消亡。考虑到英文只有二十六个字母而汉字有数千种，在这样的一种未来下人们就只能改用中文了。
+      </p>
+      <p>
+        表达能力的下降。因为大量缩略语的存在，会造成大量的双关、谐音问题，使日常表达受损。我的假想是未来人们甚至很难起名，于是在文中介绍了「名图（namegraph）」这种概念，即人们将通过一张图片来identify个体。
+      </p>
+      <p>
+        进而我将热力学概念「熵爆（entropic
+        explosion）」引入到资讯理论中，借用资讯熵创造了「语言熵爆（entropic
+        explosion of language,
+        EEL）」。用来指代当一个人的语言系统过于混乱后造成的失能状态。
+      </p>
+      <p>
+        我构思用反乌托邦的方式解决上述问题，即成立政府部门找出语言中较不存在字母汤问题的词汇，以二十世纪为蓝本，自上而下地重塑语言。至此，语言不再民主，只能由独裁的方式产生。
+      </p>
+    </article>
+    <script>
+      function setSpanWidthToEmMultiple(span) {
+        const rect = span.getBoundingClientRect();
+        const emPx = parseFloat(getComputedStyle(span).fontSize);
+        const widthInEm = rect.width / emPx;
+        const targetMultiple = Math.ceil(widthInEm * 2) / 2;
+        if (targetMultiple > 0) {
+          span.style.width = `${targetMultiple + 0.5}em`;
+        }
+      }
+
+      document.querySelectorAll("p").forEach((p) => {
+        p.innerHTML = p.textContent.replace(
+          /([^\u4E00-\u9FFF\u3000-\u303F\uFF00-\uFFEF\s—]+)|(\s+)/g,
+          '<span class="nonFullwidth">$1</span>'
+        );
+      });
+
+      document.querySelectorAll("span.nonFullwidth").forEach((span) => {
+        setSpanWidthToEmMultiple(span);
+      });
+    </script>
+    <script src="https://unpkg.com/heti/umd/heti-addon.min.js"></script>
+    <script>
+      const heti = new Heti(".heti");
+      heti.autoSpacing();
+    </script>
+  </body>
+</html>
