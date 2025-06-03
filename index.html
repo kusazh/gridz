@@ -5,42 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>中文排版测试</title>
     <style>
+      @font-face {
+        src: url(https://ethantw.github.io/Han/latest/font/han-space.woff?v3.3.0)
+            format("woff"),
+          url(https://ethantw.github.io/Han/latest/font/han-space.otf?v3.3.0)
+            format("opentype");
+        font-family: "Han Space";
+        unicode-range: U + 20;
+      }
+
       body {
         font-family: sans-serif;
-        font-size: min(36px, 4vw);
-        width: 20em;
+        width: 25em;
         margin: 0 auto;
         padding: 2em;
-        line-height: 1.5;
-        /* background-image: linear-gradient(
+        line-height: 2;
+        hanging-punctuation: allow-end;
+        -webkit-font-smoothing: antialiased;
+
+        background-image: linear-gradient(
             to right,
             lightgrey 1px,
             transparent 1px
           ),
           linear-gradient(to bottom, lightgrey 1px, transparent 1px);
         background-size: 1em 1em;
-        background-position: center center; */
-        -webkit-font-smoothing: antialiased;
-        hanging-punctuation: allow-end;
+        background-position: center center;
       }
 
-      .nonFullwidth {
+      @media screen and (max-width: 40em) {
+        body {
+          width: 15em;
+        }
+      }
+
+      body,
+      body * {
+        font-size: 24px;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      p {
+        margin: 0 -0.5em 0 0;
+        padding: 1em 0 1em 0;
+      }
+
+      .ans {
         display: inline-block;
-        letter-spacing: 0px;
         text-align: center;
       }
 
-      .heti heti-adjacent {
-        display: inline;
+      .bds-container {
+        position: relative;
+        margin-inline-end: 0.035em;
       }
 
-      .heti .heti-adjacent-half {
-        margin-inline-end: -0.5em;
+      .bds-container:before {
+        content: "\0020";
+        display: inline;
+        font: 1em "Han Space";
+      }
+
+      /* .bds {
+        display: inline-flex;
+      } */
+
+      /* .bds > span {
+        flex: 1;
+        text-align: center;
+        overflow: hidden;
+      } */
+
+      .bds > span {
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: -0.25em;
       }
     </style>
   </head>
+
   <body>
-    <article class="heti">
+    <article>
+      <h1>字母汤</h1>
       <p>
         字母汤的本质是缩略语的滥用。缩略语随着语言的发展而发展，一个缩略语可能包含另一个缩略语。以中文为例，「喜闻乐见、大快人心、普天同庆、奔走相告」四个词本身已经是成语——某种缩略语。而这四个成语又组合成新的缩略语「喜大普奔」。以此推导，未来又将产生由「喜大普奔」组成的新缩略语。
       </p>
@@ -65,31 +116,114 @@
       </p>
     </article>
     <script>
-      function setSpanWidthToEmMultiple(span) {
+      // 部分正则表达式修改自 pangu.js https://github.com/vinta/pangu.js
+      const CJK =
+        "\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30fa\u30fc-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff";
+      const A = "A-Za-z\u0080-\u00ff\u0370-\u03ff";
+      const N = "0-9";
+      const S = "`~!@#\\$%\\^&\\*\\(\\)-_=\\+\\[\\]{}\\\\\\|;:'\",<.>\\/\\?";
+      const ANS = `${A}${N}${S}`;
+      const REG_CJK_FULL = `(?<=[${CJK}])( *[${ANS}]+(?: +[${ANS}]+)* *)(?=[${CJK}])`;
+      const REG_CJK_START = `([${ANS}]+(?: +[${ANS}]+)* *)(?=[${CJK}])`;
+      const REG_CJK_END = `(?<=[${CJK}])( *[${ANS}]+(?: +[${ANS}]+)*)`;
+      const REG_CJK_FULL_WITHOUT_LOOKBEHIND = `(?:[${CJK}])( *[${ANS}]+(?: +[${ANS}]+)* *)(?=[${CJK}])`;
+      const REG_CJK_END_WITHOUT_LOOKBEHIND = `(?:[${CJK}])( *[${ANS}]+(?: +[${ANS}]+)*)`;
+      const REG_BD_STOP = `。．，、：；！‼？⁇`;
+      const REG_BD_SEP = `·・‧`;
+      const REG_BD_OPEN = `「『（《〈【〖〔［｛`;
+      const REG_BD_CLOSE = `」』）》〉】〗〕］｝`;
+      const REG_BD_START = `${REG_BD_OPEN}${REG_BD_CLOSE}`;
+      const REG_BD_END = `${REG_BD_STOP}${REG_BD_OPEN}${REG_BD_CLOSE}`;
+      const REG_BD_HALF_OPEN = `“‘`;
+      const REG_BD_HALF_CLOSE = `”’`;
+      const REG_BD_HALF_START = `${REG_BD_HALF_OPEN}${REG_BD_HALF_CLOSE}`;
+
+      document.querySelectorAll("p").forEach((p) => {
+        let ansOpened = false;
+        let bdsOpened = false;
+        const chars = [];
+
+        [...p.textContent.trim()].forEach((char) => {
+          if (new RegExp(`[${ANS}]`).test(char)) {
+            if (!ansOpened) {
+              if (bdsOpened) {
+                chars.push("</span></span>");
+                bdsOpened = false;
+              }
+              chars.push('<span lang="en" class="ans">');
+              ansOpened = true;
+            }
+          } else {
+            if (ansOpened) {
+              chars.push("</span>");
+              ansOpened = false;
+            }
+          }
+
+          if (new RegExp(`[${REG_BD_END}]`).test(char)) {
+            if (!bdsOpened) {
+              if (ansOpened) {
+                chars.push("</span>");
+                ansOpened = false;
+              }
+              chars.push('<span class="bds-container"><span class="bds">');
+              bdsOpened = true;
+            }
+          } else {
+            if (bdsOpened) {
+              chars.push("</span></span>");
+              bdsOpened = false;
+            }
+          }
+
+          if (ansOpened || bdsOpened) {
+            chars.push(`<span>${char}</span>`);
+          } else if (!/\s+/g.test(char)) {
+            chars.push(char);
+          }
+        });
+
+        if (ansOpened) {
+          chars.push("</span>");
+        }
+
+        if (bdsOpened) {
+          chars.push("</span></span>");
+        }
+
+        p.innerHTML = chars.join("");
+      });
+
+      document.querySelectorAll("span.ans").forEach((span) => {
         const rect = span.getBoundingClientRect();
         const emPx = parseFloat(getComputedStyle(span).fontSize);
         const widthInEm = rect.width / emPx;
-        const targetMultiple = Math.ceil(widthInEm * 2) / 2;
+        const targetMultiple = Math.ceil(widthInEm + 0.2);
+
         if (targetMultiple > 0) {
-          span.style.width = `${targetMultiple + 0.5}em`;
+          span.style.width = `${targetMultiple}em`;
         }
-      }
+      });
 
-      document.querySelectorAll("p").forEach((p) => {
-        p.innerHTML = p.textContent.replace(
-          /([^\u4E00-\u9FFF\u3000-\u303F\uFF00-\uFFEF\s—]+)|(\s+)/g,
-          '<span class="nonFullwidth">$1</span>'
+      document.querySelectorAll("span.bds").forEach((span) => {
+        const l = span.querySelectorAll("span").length;
+        span.parentElement.dataset.contentLength = "\u00A0".repeat(
+          Math.ceil(l / 2)
         );
-      });
 
-      document.querySelectorAll("span.nonFullwidth").forEach((span) => {
-        setSpanWidthToEmMultiple(span);
+        span.querySelectorAll("span").forEach((s, i) => {
+          if (i > 0) {
+            if (new RegExp(`[${REG_BD_OPEN}]`).test(s.textContent)) {
+              s.style.left = `${0.5 * (i - 1)}em`;
+            } else {
+              s.style.left = `${0.5 * i}em`;
+            }
+          }
+          if (i > 1) {
+            s.parentElement.style.marginInlineEnd = `${i - 1}em`;
+          }
+        });
       });
-    </script>
-    <script src="https://unpkg.com/heti/umd/heti-addon.min.js"></script>
-    <script>
-      const heti = new Heti(".heti");
-      heti.autoSpacing();
     </script>
   </body>
 </html>
