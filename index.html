@@ -84,7 +84,7 @@
         display: inline-block;
         position: absolute;
         left: 0;
-        top: -0.25em;
+        top: -0.3em;
       }
     </style>
   </head>
@@ -206,11 +206,6 @@
       });
 
       document.querySelectorAll("span.bds").forEach((span) => {
-        const l = span.querySelectorAll("span").length;
-        span.parentElement.dataset.contentLength = "\u00A0".repeat(
-          Math.ceil(l / 2)
-        );
-
         span.querySelectorAll("span").forEach((s, i) => {
           if (i > 0) {
             if (new RegExp(`[${REG_BD_OPEN}]`).test(s.textContent)) {
