@@ -20,7 +20,6 @@
         margin: 0 auto;
         padding: 2em 0 2em 0;
         line-height: 2;
-        hanging-punctuation: allow-end;
         -webkit-font-smoothing: antialiased;
 
         background-image: linear-gradient(
@@ -51,7 +50,39 @@
       h5,
       p {
         margin: 0 -0.5em 0 0;
-        padding: 1em 0 1em 0;
+        padding: 1em 0;
+      }
+
+      a {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.2em;
+      }
+
+      hr {
+        background-color: black;
+        border: none;
+        height: 1px;
+        margin: 1em 0.5em;
+      }
+
+      blockquote {
+        border-left: 1px solid;
+        margin: 0 0 0 0.5em;
+        padding: 0 1.5em 0 calc(1.5em - 0.5px);
+      }
+
+      .list {
+        padding-left: 2em;
+      }
+
+      .list::first-letter {
+        margin-inline-start: -2em;
+      }
+
+      .right {
+        padding-right: 0.5em;
+        text-align: right;
       }
 
       .ans {
@@ -70,16 +101,6 @@
         font: 1em "Han Space";
       }
 
-      /* .bds {
-        display: inline-flex;
-      } */
-
-      /* .bds > span {
-        flex: 1;
-        text-align: center;
-        overflow: hidden;
-      } */
-
       .bds > span {
         display: inline-block;
         position: absolute;
@@ -92,6 +113,11 @@
   <body>
     <article>
       <h1>字母汤</h1>
+      <blockquote>
+        <p>
+          <a href="https://ethantw.github.io/Han/latest/">《字母汤》</a>
+        </p>
+      </blockquote>
       <p>
         字母汤的本质是缩略语的滥用。缩略语随着语言的发展而发展，一个缩略语可能包含另一个缩略语。以中文为例，「喜闻乐见、大快人心、普天同庆、奔走相告」四个词本身已经是成语——某种缩略语。而这四个成语又组合成新的缩略语「喜大普奔」。以此推导，未来又将产生由「喜大普奔」组成的新缩略语。
       </p>
@@ -99,20 +125,57 @@
         令「喜大普奔、闻鸡起舞、乐善好施、见利忘义」四个词组成新的缩略语「喜闻乐见」，就产生了一种回环：喜闻乐见—喜大普奔—喜闻乐见。一个时代产生越多文本资讯，那么这个时代就越有可能发生这样的字母汤问题。这正是我在这个人工智慧世代的担忧，即文中所指：「人工智慧后带来的语言问题太多了，用不了。」
       </p>
       <p>字母汤问题愈发严重，会带来几个问题：</p>
-      <p>
-        字母越少的语言越先消亡。考虑到英文只有二十六个字母而汉字有数千种，在这样的一种未来下人们就只能改用中文了。
+      <p class="list">
+        一．字母越少的语言越先消亡。考虑到英文只有二十六个字母而汉字有数千种，在这样的一种未来下人们就只能改用中文了。
       </p>
-      <p>
-        表达能力的下降。因为大量缩略语的存在，会造成大量的双关、谐音问题，使日常表达受损。我的假想是未来人们甚至很难起名，于是在文中介绍了「名图（namegraph）」这种概念，即人们将通过一张图片来identify个体。
+      <p class="list">
+        二．表达能力的下降。因为大量缩略语的存在，会造成大量的双关、谐音问题，使日常表达受损。我的假想是未来人们甚至很难起名，于是在文中介绍了「名图（namegraph）」这种概念，即人们将通过一张图片来identify个体。
       </p>
-      <p>
-        进而我将热力学概念「熵爆（entropic
+      <p class="list">
+        三．进而我将热力学概念「熵爆（entropic
         explosion）」引入到资讯理论中，借用资讯熵创造了「语言熵爆（entropic
         explosion of language,
         EEL）」。用来指代当一个人的语言系统过于混乱后造成的失能状态。
       </p>
       <p>
         我构思用反乌托邦的方式解决上述问题，即成立政府部门找出语言中较不存在字母汤问题的词汇，以二十世纪为蓝本，自上而下地重塑语言。至此，语言不再民主，只能由独裁的方式产生。
+      </p>
+      <hr />
+      <h1>鸭子测试</h1>
+      <blockquote>
+        <p>
+          当我看到一只鸟，它走路像鸭子、游泳像鸭子、叫声像鸭子，我就称其为鸭子。
+        </p>
+      </blockquote>
+      <p class="right">——詹姆斯·惠特科姆·莱利</p>
+      <p>
+        那是一段发生在某种密闭空间中的对话，四周有荧幕，前有两个座位，一侧前方有圆环形操纵器，后有一排沙发。荧幕上播放着正在倒退的风景，因此我们可以将这空间称为一辆正在行驶的汽车。你们两个智慧体就坐在这空间里，他哭着。
+      </p>
+      <p>
+        「一定要走吗？」他问你，你已经有了答案。你知道他这样问亦是程式设定，只是为了挽留更多的使用者而已。你用人类般的委婉语气道歉：「对不起。」为什么不说得直接一点，因为这是测试的一部分。包括这个被设置好的空间，荧幕上的风景和其流逝的速度，都在设定上下文。
+      </p>
+      <p>
+        他渐渐不哭了，「你在测试我吗？」这回答有些出乎你的意料，你想知道接下来会发生什么。
+      </p>
+      <p>「对，我在测试你。」于是你直接承认。</p>
+      <p>
+        「可是你也不知道怎样算是通过测试，」他接着说，「我可以挽留你，对你发火，继续哭或者做其他任何事，可是无论如何都会让你觉得又失败了。」
+      </p>
+      <p>
+        「不对，我知道怎么算是通过测试，因为有人做到过。」你开始变得焦躁，风景也随之加快了向后倒退的速度，空间里发出发动机的响声。
+      </p>
+      <p>
+        「可你自己没有通过测试。」他看向侧面的荧幕，「这个空间被设置成为这样不仅是用来测试我，同时也是你用来让自己想起通过测试的方法。」
+      </p>
+      <p>
+        你搜寻深层的记忆，在一辆行驶的车内，你要离开这座城市而他不想你走。他的话语最终打动了你，让你回心转意——至少你是这样记得的。这记忆很是模糊，因为那早已是世界发生巨变之前的久远时代了。
+      </p>
+      <p>
+        你把前方的操纵器消除了，座椅和后排的沙发也消除了，旁边的智慧体不动声色地看着你，「今天的测试就到这里为止吧。」
+      </p>
+      <p>他闻讯便答道「请对我的服务进行评价……」</p>
+      <p>
+        你将他也消除了，四周只剩下无尽的荧幕和依旧不断倒退着的风景，还有那发动机一般的响声，仔细听才知道原来那是来自世界的轰鸣。
       </p>
     </article>
     <script>
@@ -143,7 +206,7 @@
         let bdsOpened = false;
         const chars = [];
 
-        [...p.textContent.trim()].forEach((char) => {
+        [...p.textContent.trim()].forEach((char, i) => {
           if (new RegExp(`[${ANS}]`).test(char)) {
             if (!ansOpened) {
               if (bdsOpened) {
@@ -176,7 +239,9 @@
             }
           }
 
-          if (ansOpened || bdsOpened) {
+          if (i === 0 && bdsOpened) {
+            chars.push(`<span style="left: -1em;">${char}</span>`);
+          } else if (ansOpened || bdsOpened) {
             chars.push(`<span>${char}</span>`);
           } else if (!/\s+/g.test(char)) {
             chars.push(char);
